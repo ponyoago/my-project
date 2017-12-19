@@ -1,0 +1,50 @@
+/*
+ * Copyright (c) 2017 <l_iupeiyu@qq.com> All rights reserved.
+ */
+
+package com.ago.controller.console;
+
+import com.ago.model.console.Log;
+import com.ago.service.console.LogService;
+import com.ago.util.ReturnUtil;
+import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
+
+/**
+ * author ago
+ * date 2017/1/6 0006 上午 11:35
+ */
+@Controller
+@RequestMapping("/console/log")
+public class LogController {
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Autowired
+    private LogService logService;
+
+    @RequestMapping(value = "/index", method = {RequestMethod.GET})
+    public String index(Model model) {
+        return "console/log/index";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/list", method = {RequestMethod.GET})
+    public ModelMap list(Log log) {
+        ModelMap map = new ModelMap();
+        List<Log> Lists = logService.getPageList(log);
+        map.put("pageInfo", new PageInfo<Log>(Lists));
+        map.put("queryParam", log);
+        return ReturnUtil.Success("加载成功", map, null);
+    }
+}
