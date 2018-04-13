@@ -6,13 +6,13 @@
 <body>
 <section class="content-header">
     <h1>角色管理</h1>
-    <small>列表管理</small>
+    <!--<small>列表管理</small>-->
 </section>
 <section class="content table-content">
     <table id="dataGrid"></table>
 </section>
 <div id="toolbar">
-    <a href="/console/role/from" class="btn btn-primary" >添加角色</a>
+    <a href="javascript:createRole()" class="btn btn-primary" >添加角色</a>
 </div>
 <div th:include="console/footer"></div>
 
@@ -61,9 +61,12 @@
             '<a class="grant" href="javascript:void(0);" >',
             '<i class="glyphicon glyphicon-edit"></i>授权',
             '</a>  ',
-            '<a href="/console/role/from?roleId='+row.roleId+'" >',
+            '<a class="update" href="javascript:void(0);" >',
             '<i class="glyphicon glyphicon-edit"></i>修改',
             '</a>  ',
+            /*'<a href="/console/role/from?roleId='+row.roleId+'" >',
+            '<i class="glyphicon glyphicon-edit"></i>修改',
+            '</a>  ',*/
             '<a class="remove" href="javascript:void(0);">',
             '<i class="glyphicon glyphicon-remove"></i>删除',
             '</a>'
@@ -78,14 +81,37 @@
             layer.open({
                 type: 2,
                 title: '角色授权',
-                shadeClose: true,
-                shade: false,
+                shadeClose: false,
+                shade: 0.3,
                 maxmin: true, //开启最大化最小化按钮
                 area: ['500px', '500px'],
                 content: '/console/role/grant/?roleId=' + row.roleId
             });
+        },
+        'click .update' : function (e, value, row, index) {
+            layer.open({
+                type: 2,
+                title: '修改角色',
+                shadeClose: false,
+                shade: 0.3,
+                maxmin: true, //开启最大化最小化按钮
+                area: ['500px', '500px'],
+                content: '/console/role/from/?roleId=' + row.roleId
+            });
         }
     };
+
+    function createRole() {
+        layer.open({
+            type: 2,
+            title: '新增角色',
+            shadeClose: false,
+            shade: 0.3,
+            maxmin: true, //开启最大化最小化按钮
+            area: ['500px', '500px'],
+            content: '/console/role/from'
+        });
+    }
 
 </script>
 </body>

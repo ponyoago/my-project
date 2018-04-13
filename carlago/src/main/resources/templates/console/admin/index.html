@@ -5,14 +5,13 @@
 </head>
 <body>
 <section class="content-header">
-    <h1>管理员管理</h1>
-    <small>列表管理</small>
+    <h1>用户列表</h1>
 </section>
 <section class="content table-content">
     <table id="dataGrid"></table>
 </section>
 <div id="toolbar">
-    <a href="/console/admin/from" class="btn btn-primary">添加用户</a>
+    <a href="javascript:createUser()" class="btn btn-primary">添加用户</a>
 </div>
 <div th:include="console/footer"></div>
 </body>
@@ -49,8 +48,8 @@
             sortOrder : 'asc',
             pagination : true,
             sidePagination : 'server',
-            pageSize: 20,
-            pageList : [20, 40, 50, 100],
+            pageSize: 10,
+            pageList : [10,20, 40, 50, 100],
             toolbar : "#toolbar",
             showRefresh : true,
             showToggle : true
@@ -71,7 +70,10 @@
     function operateFormatter(value, row, index) {
         if(row.isSystem == 0){
             return [
-                '<a href="/console/admin/from?uid='+row.uid+'" >',
+                /*'<a href="/console/admin/from?uid='+row.uid+'" >',
+                '<i class="glyphicon glyphicon-edit"></i>修改',
+                '</a>  ',*/
+                '<a class="edit" href="javascript:void(0);">',
                 '<i class="glyphicon glyphicon-edit"></i>修改',
                 '</a>  ',
                 '<a class="remove" href="javascript:void(0);">',
@@ -84,7 +86,31 @@
     window.operateEvents = {
         'click .remove': function (e, value, row, index) {
             operaModel.delRow(row.uid, '/console/admin/delete', 'uid');
+        },
+        'click .edit' : function (e, value, row, index) {
+            layer.open({
+                type: 2,
+                title: "用户修改",
+                shadeClose: false,
+                shade: 0.3,
+                maxmin: true, //开启最大化最小化按钮
+                area: ['500px', '500px'],
+                content: '/console/admin/from.html?uid=' + row.uid
+            });
         }
     };
+
+    function createUser() {
+        layer.open({
+            type: 2,
+            title: "用户新增",
+            shadeClose: false,
+            shade: 0.3,
+            maxmin: true, //开启最大化最小化按钮
+            area: ['500px', '500px'],
+            content: '/console/admin/from.html'
+        });
+    }
+
 </script>
 </html>

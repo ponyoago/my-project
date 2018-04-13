@@ -6,10 +6,10 @@
 <body>
 <section class="content-header">
     <h1>资源管理</h1>
-    <small>资源列表</small>
+    <!--<small>资源列表</small>-->
 </section>
 <section class="content table-content">
-    <a href="/console/menu/from" class="btn btn-primary" >添加资源</a>
+    <a href="javascript:createMenu()" class="btn btn-primary" >添加资源</a>
     <table class="table table-bordered" id="dataGrid">
         <tr>
             <th>菜单名称</th>
@@ -30,8 +30,13 @@
             <td th:text="${menu.createdAt}"></td>
             <td th:text="${menu.updatedAt}"></td>
             <td>
-                <a th:href="${'/console/menu/from?parentId='+menu.menuId}" ><i class="glyphicon glyphicon-add"></i>添加子菜单</a>
-                <a th:href="${'/console/menu/from?menuId='+menu.menuId}" ><i class="glyphicon glyphicon-edit"></i>修改</a>
+                <!--<a th:href="${'/console/menu/from?parentId='+menu.menuId}" ><i class="glyphicon glyphicon-add"></i>添加子菜单</a>
+                <a th:href="${'/console/menu/from?menuId='+menu.menuId}" ><i class="glyphicon glyphicon-edit"></i>修改</a>-->
+                <a class="addChild"  th:attr="data-id=${menu.menuId}" ><i
+                        class="glyphicon glyphicon-add"></i>
+                    添加子菜单</a>
+                <a class="update" th:attr="data-id=${menu.menuId}" ><i
+                        class="glyphicon glyphicon-edit"></i>修改</a>
                 <a class="remove" th:attr="data-id=${menu.menuId}" href="javascript:void(0);"><i class="glyphicon glyphicon-remove"></i>删除</a></td>
         </tr>
     </table>
@@ -76,7 +81,45 @@
                 });
             });
         })
+        //添加子菜单
+        $(".addChild").on('click', function () {
+            var _this = $(this);
+            layer.open({
+                type: 2,
+                title: "添加子菜单",
+                shadeClose: true,
+                shade: 0.3,
+                maxmin: true, //开启最大化最小化按钮
+                area: ['500px', '520px'],
+                content: '/console/menu/from.html?parentId=' + _this.data('id')
+            });
+        })
+        //修改
+        $(".update").on('click', function () {
+            var _this = $(this);
+            layer.open({
+                type: 2,
+                title: "资源修改",
+                shadeClose: false,
+                shade: 0.3,
+                maxmin: true, //开启最大化最小化按钮
+                area: ['500px', '520px'],
+                content: '/console/menu/from.html?menuId=' + _this.data('id')
+            });
+        })
     });
+
+    function createMenu() {
+        layer.open({
+            type: 2,
+            title: "资源修改",
+            shadeClose: false,
+            shade: 0.3,
+            maxmin: true, //开启最大化最小化按钮
+            area: ['500px', '520px'],
+            content: '/console/menu/from.html'
+        });
+    }
 
     function getState(value) {
         if(value == "menu"){

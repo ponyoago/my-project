@@ -29,6 +29,7 @@ var operaModel = (function () {
                             field: field,
                             values: [rowid]
                         });
+                        $table.bootstrapTable('refresh');
                     } else {
                         layer.msg(ret.msg, {icon: 2});
                     }
@@ -146,7 +147,11 @@ var operaModel = (function () {
                             if (data.state === 'success') {
                                 layer.msg(data.msg, {icon: 1}, function () {
                                     if (data.referer) {
-                                        operaModel.redirect(data.referer);//返回带跳转地址
+                                        //operaModel.redirect(data.referer);//返回带跳转地址
+                                        layerModel.closeParent();
+                                        /*parent.$('#dataGrid').bootstrapTable('refresh');
+                                        parent.$('#dataGrid').treegrid('refresh');*/
+                                        parent.location.reload();
                                     } else {
                                         if (data.state === 'success') {
                                             operaModel.reloadPage(window);//刷新当前页
