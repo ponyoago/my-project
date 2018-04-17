@@ -102,7 +102,7 @@ public class PublicController {
         System.out.println("PublicController.logout()");
         SecurityUtils.getSubject().logout();
         redirectAttributes.addFlashAttribute("message", "您已安全退出");
-        return "redirect:/console/login";
+        return "redirect:/member/login";
     }
 
     @RequestMapping("/403")
